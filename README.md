@@ -63,7 +63,7 @@ The `size` refers to the number of data blocks used in the `data_block` array. T
 ### Block 2+ "The Data Block"
 The data block is simply the file content. All 512 bytes are devoted to the content of the files pointed from inodes.
 
-## Task #1 - Initialize the Superblock and Bitmap (30 points)
+## Task #1 - Initialize the Superblock and Bitmap (20 points)
 When initializing the `heartyfs`, the superblock must be initialized. All the entries in the root directory must be cleared (i.e., it must have only `.` and `..` entries). Moreover, the bitmap must be all `1` at first (to represent that all the blocks are free).
 
 You need to implement this behavior in the `heartyfs_init.c` file. When you compile and run the `heartyfs_init.c` file, you should get the newly created superblock and bitmap on your machine.
@@ -119,7 +119,7 @@ bin/heartyfs_rm /dir1/dir2/dir3/abc.xyz
 
 It must remove the inode corresponding to the `abc.xyz` file. The directory `/dir1/dir2/dir3/` must also remove the entry `abc.xyz`.
 
-## Task #6 - `heartyfs_write` (10 points)
+## Task #6 - `heartyfs_write` (15 points)
 You need to create a `heartyfs_write` program to handle the file writing in `heartyfs`. Typically, `write` will be more complicated that it needs to deal with the file system's buffer. However, in `heartyfs`, `heartyfs_write` will be just copying all the contents of the file in an external file system to the file in the `heartyfs`.
 
 Users must be able to `heartyfs_write` using the following shell command:
@@ -130,7 +130,7 @@ bin/heartyfs_write /dir1/dir2/dir3/abc.xyz /home/pnx/random.txt
 
 Do not forget to make sure that the size of the file being copied must not exceed the hard limit of the `heartyfs`. (Hint: We do not have *(in)direct pointer blocks*)
 
-## Task #7 - `heartyfs_read` (10 points)
+## Task #7 - `heartyfs_read` (15 points)
 You need to create a `heartyfs_read` program to handle the file reading in `heartyfs`. Typically, `read` will be more complicated that it needs to deal with the file system's buffer. However, `heartyfs`'s `heartyfs_read` will be very similar to the `cat` command. In other words, it just prints out the file content to the terminal.
 
 Users must be able to `heartyfs_read` using the following shell command:
