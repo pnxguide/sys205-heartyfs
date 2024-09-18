@@ -1,4 +1,4 @@
-# SYS-205 Assessment 4 - Building `heartyfs`
+# SYS-205 Assessment 4 - Implementing the `heartyfs` file system
 
 `heartyfs` is a very simple file system that has common file system structures: superblock, inodes, free bitmap, and data blocks. You are tasked to implement all of these structures along with 6 basic file system operations: `mkdir`, `rmdir`, `creat`, `rm`, `read`, and `write`.
 
