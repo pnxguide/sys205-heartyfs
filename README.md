@@ -2,7 +2,7 @@
 
 `heartyfs` is a very simple file system that has common file system structures: superblock, inodes, free bitmap, and data blocks. You are tasked to implement all of these structures along with 6 basic file system operations: `mkdir`, `rmdir`, `creat`, `rm`, `read`, and `write`.
 
-`heartyfs` will be layed out on a linear array of 512-byte blocks. The array will be physically put in a 1-MB disk file at `/tmp/heartyfs`. Thus, in total, there will be 2048 blocks.
+`heartyfs` will be layed out on a linear array of 512-byte blocks. The array will be physically put into a 1-MB disk file at `/tmp/heartyfs`. Thus, in total, there will be 2048 blocks.
 
 Please follow the following task list so that you can complete the assessment without being lost.
 
@@ -66,18 +66,18 @@ The data block is simply the file content. All 512 bytes are devoted to the cont
 ## Task #1 - Initialize the Superblock and Bitmap (30 points)
 When initializing the `heartyfs`, the superblock must be initialized. All the entries in the root directory must be cleared (i.e., it must have only `.` and `..` entries). Moreover, the bitmap must be all `1` at first (to represent that all the blocks are free).
 
-You need to implement this behavior in the `init.c` file. When you compile and run the `init.c` file, you should get the newly created superblock and bitmap on your machine.
+You need to implement this behavior in the `heartyfs_init.c` file. When you compile and run the `heartyfs_init.c` file, you should get the newly created superblock and bitmap on your machine.
 
 **Note that, before running the following commands, you will always need to do the memory mapping of the `/tmp/heartyfs`. (This is not necessary in the actual file system.)**
 
-## Task #2 - `mkdir` (15 points)
-You need to create a `mkdir` program to handle the directory creation in `heartyfs`. Users must be able to `mkdir` using the following shell command:
+## Task #2 - `heartyfs_mkdir` (15 points)
+You need to create a `heartyfs_mkdir` program to handle the directory creation in `heartyfs`. Users must be able to `heartyfs_mkdir` using the following shell command:
 
 ```sh
 bin/heartyfs_mkdir /dir1/dir2/dir3/
 ```
 
-The implementation of `mkdir` must do the following things:
+The implementation of `heartyfs_mkdir` must do the following things:
 - Check whether the `heartyfs` is initialized or not
 - Check whether there is `/dir1/dir2/` in the `heartyfs` or not
   - This means there must be `/` (root directory)
@@ -90,10 +90,10 @@ The implementation of `mkdir` must do the following things:
 - Name the directory block `dir3/`
 - Add new entry to the parent directory block
 
-`mkdir` must report success or error according to its action.
+`heartyfs_mkdir` must report success or error according to its action.
 
-## Task #3 - `rmdir` (10 points)
-You need to create a `rmdir` program to handle the directory removal in `heartyfs`. Users must be able to `rmdir` using the following shell command:
+## Task #3 - `heartyfs_rmdir` (10 points)
+You need to create a `heartyfs_rmdir` program to handle the directory removal in `heartyfs`. Users must be able to `heartyfs_rmdir` using the following shell command:
 
 ```sh
 bin/heartyfs_rmdir /dir1/dir2/dir3/
@@ -101,8 +101,8 @@ bin/heartyfs_rmdir /dir1/dir2/dir3/
 
 Basically, it will remove the entry `dir3/` from the directory block of `/dir1/dir2/` **if and only if there are no entries in the `dir3/`**. More importantly, the directory block `dir3/` must also be free (by changing the bitmap).
 
-## Task #4 - `creat` (15 points)
-You need to create a `creat` program to handle the file creation in `heartyfs`. Users must be able to `creat` using the following shell command:
+## Task #4 - `heartyfs_creat` (15 points)
+You need to create a `heartyfs_creat` program to handle the file creation in `heartyfs`. Users must be able to `heartyfs_creat` using the following shell command:
 
 ```sh
 bin/heartyfs_creat /dir1/dir2/dir3/abc.xyz
@@ -110,8 +110,8 @@ bin/heartyfs_creat /dir1/dir2/dir3/abc.xyz
 
 It must create a new inode corresponding to the `abc.xyz` file. The directory `/dir1/dir2/dir3/` must also have `abc.xyz` as one of its entries.
 
-## Task #5 - `rm` (10 points)
-You need to create a `rm` program to handle the file removal in `heartyfs`. Users must be able to `rm` using the following shell command:
+## Task #5 - `heartyfs_rm` (10 points)
+You need to create a `heartyfs_rm` program to handle the file removal in `heartyfs`. Users must be able to `heartyfs_rm` using the following shell command:
 
 ```sh
 bin/heartyfs_rm /dir1/dir2/dir3/abc.xyz
@@ -119,10 +119,10 @@ bin/heartyfs_rm /dir1/dir2/dir3/abc.xyz
 
 It must remove the inode corresponding to the `abc.xyz` file. The directory `/dir1/dir2/dir3/` must also remove the entry `abc.xyz`.
 
-## Task #6 - `write` (10 points)
-You need to create a `write` program to handle the file writing in `heartyfs`. Typically, `write` will be more complicated that it needs to deal with the file system's buffer. However, in `heartyfs`, `write` will be just copying all the contents of the file in an external file system to the file in the `heartyfs`.
+## Task #6 - `heartyfs_write` (10 points)
+You need to create a `heartyfs_write` program to handle the file writing in `heartyfs`. Typically, `write` will be more complicated that it needs to deal with the file system's buffer. However, in `heartyfs`, `heartyfs_write` will be just copying all the contents of the file in an external file system to the file in the `heartyfs`.
 
-Users must be able to `write` using the following shell command:
+Users must be able to `heartyfs_write` using the following shell command:
 
 ```sh
 bin/heartyfs_write /dir1/dir2/dir3/abc.xyz /home/pnx/random.txt
@@ -130,10 +130,10 @@ bin/heartyfs_write /dir1/dir2/dir3/abc.xyz /home/pnx/random.txt
 
 Do not forget to make sure that the size of the file being copied must not exceed the hard limit of the `heartyfs`. (Hint: We do not have *(in)direct pointer blocks*)
 
-## Task #7 - `read` (10 points)
-You need to create a `read` program to handle the file reading in `heartyfs`. Typically, `read` will be more complicated that it needs to deal with the file system's buffer. However, `heartyfs`'s read will be very similar to the `cat` command. In other words, it just prints out the file content to the terminal.
+## Task #7 - `heartyfs_read` (10 points)
+You need to create a `heartyfs_read` program to handle the file reading in `heartyfs`. Typically, `read` will be more complicated that it needs to deal with the file system's buffer. However, `heartyfs`'s `heartyfs_read` will be very similar to the `cat` command. In other words, it just prints out the file content to the terminal.
 
-Users must be able to `read` using the following shell command:
+Users must be able to `heartyfs_read` using the following shell command:
 
 ```sh
 bin/heartyfs_read /dir1/dir2/dir3/abc.xyz
