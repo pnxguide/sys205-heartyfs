@@ -63,6 +63,8 @@ The `size` refers to the number of data blocks used in the `data_block` array. T
 ### Block 2+ "The Data Block"
 The data block is simply the file content. All 512 bytes are devoted to the content of the files pointed from inodes.
 
+**Note that all of these structures must be persistent on disk. In other words, you must always flush all of these into a disk file.**
+
 ## Task #1 - Initialize the Superblock and Bitmap (20 points)
 When initializing the `heartyfs`, the superblock must be initialized. All the entries in the root directory must be cleared (i.e., it must have only `.` and `..` entries). Moreover, the bitmap must be all `1` at first (to represent that all the blocks are free).
 
