@@ -61,7 +61,14 @@ struct heartyfs_inode {
 The `size` refers to the number of data blocks used in the `data_block` array. The value of the `type` for a regular file is `0`.
 
 ### Block 2+ "The Data Block"
-The data block is simply the file content. All 512 bytes are devoted to the content of the files pointed from inodes.
+The data block is simply the file content. You must preserve the first 4 bytes for the size of the data. The rest 508 bytes are devoted to the content of the files pointed from inodes. In other words,
+
+```c
+struct heartyfs_data_block {
+    int size;               // 4 bytes
+    char name[508];         // 508 bytes
+};  // Overall: 512 bytes
+```
 
 **Note that all of these structures must be persistent on disk. In other words, you must always flush all of these into a disk file.**
 
